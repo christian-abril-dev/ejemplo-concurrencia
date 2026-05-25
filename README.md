@@ -22,7 +22,7 @@ Este proyecto compara ambos enfoques de forma medible:
 El proyecto sigue una arquitectura por capas, clara y mantenible:
 
 ```
-src/main/java/com/ejemplo/concurrencia/
+src/main/java/com/abril/concurrencia/
 ├── controller/        # Capa de entrada — endpoints REST
 ├── service/           # Lógica de negocio y orquestación async
 ├── dto/               # Objetos de respuesta (desacoplados del modelo)
