@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 public class PagoService {
 	
 	public String getHistorial(Long id) {
+		System.out.println("getHistorial ejecutando en thread: " + Thread.currentThread().getName());
 		sleep(400);
 		return "Historial: 5 pagos al día";
 	}

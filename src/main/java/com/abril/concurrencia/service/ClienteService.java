@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 public class ClienteService {
 	
 	public String getDatos(Long id) {
+		System.out.println("getDatos ejecutando en thread: " + Thread.currentThread().getName());
 		sleep(300);
 		return "Cliente #" + id + " - Juan Perez";
 	}

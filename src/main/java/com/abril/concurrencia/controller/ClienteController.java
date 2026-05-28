@@ -70,4 +70,38 @@ public class ClienteController {
 		);
 	}
 	
+	@GetMapping("/{id}/resumen-con-fallo")
+	public ResumenClienteResponse resumenConFallo(@PathVariable Long id) {
+		long inicio = System.currentTimeMillis();
+		
+		CompletableFuture<String> datosFuture =
+				CompletableFuture.supplyAsync(() -> clienteService.getDatos(id), clienteExecutor);
+		
+		CompletableFuture<String> historialFuture =
+				CompletableFuture.supplyAsync(() -> pagoService.getHistorial(id), clienteExecutor);
+		
+		// Se implementa para hacerlo fallar
+		CompletableFuture<Integer> scoreFuture =
+		        CompletableFuture.<Integer>supplyAsync(() -> {
+		            throw new RuntimeException("Servicio de score no disponible");
+		        }, clienteExecutor)
+		        .exceptionally(ex -> {
+		            System.out.println("⚠️ Score falló: " + ex.getMessage() + 
+		                             " | Thread: " + Thread.currentThread().getName());
+		            return null; // retorna null en lugar de explotar
+		        });
+		
+		CompletableFuture.allOf(datosFuture, historialFuture, scoreFuture).join();
+		
+		long tiempo = System.currentTimeMillis() - inicio;
+		
+		return new ResumenClienteResponse(
+		        datosFuture.join(),
+		        historialFuture.join(),
+		        scoreFuture.join(), // null — y el endpoint sigue funcionando
+		        tiempo
+		);
+		
+	}
+	
 }

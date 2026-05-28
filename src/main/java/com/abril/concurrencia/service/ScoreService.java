@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 public class ScoreService {
 	
 	public Integer getScore(Long id) {
+		System.out.println("getScore ejecutando en thread: " + Thread.currentThread().getName());
 		sleep(200);
 		return 850;
 	}
